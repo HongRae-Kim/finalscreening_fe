@@ -1,0 +1,5 @@
+@import "./tailwind.css";
+
+.recharts-wrapper * {
+  outline: none !important;
+}

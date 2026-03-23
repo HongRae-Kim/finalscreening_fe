@@ -1,0 +1,68 @@
+@import "tailwindcss";
+@import "tailwind-scrollbar-hide/v4";
+
+:root {
+  --header-h: 73px;
+  --content-area: 1440px;
+  --global-padding: 12px;
+  --color-gradient-positive: linear-gradient(90deg, #71e9d0 0%, #03aedd 100%);
+  --color-gradient-negative: linear-gradient(90deg, #ffa69e 0%, #fa084d 100%);
+  --color-gradient-positive-50: linear-gradient(
+    90deg,
+    rgba(113, 233, 208, 0.5) 0%,
+    rgba(3, 174, 221, 0.5) 100%
+  );
+  --color-gradient-negative-50: linear-gradient(
+    90deg,
+    rgba(255, 166, 158, 0.5) 0%,
+    rgba(250, 8, 77, 0.5) 100%
+  );
+}
+
+@layer utilities {
+  .bg-gradient-positive {
+    background: var(--color-gradient-positive);
+  }
+  .bg-gradient-negative {
+    background: var(--color-gradient-negative);
+  }
+  .hover\:bg-gradient-positive-50:hover {
+    background: var(--color-gradient-positive-50);
+  }
+  .hover\:bg-gradient-negative-50:hover {
+    background: var(--color-gradient-negative-50);
+  }
+}
+
+@theme {
+  /* 공통 색상 정의 */
+  --color-accent: #2fd3b1;
+  --color-positive: #51a2ff;
+  --color-negative: #ff6467;
+
+  /* 기본 테마(다크 모드) 색상 정의 */
+  --color-bg-primary: #0f172b;
+  --color-bg-secondary: #1d293d;
+  --color-bg-tertiary: #314158;
+  --color-bg-quaternary: #45556c;
+  --color-border-primary: #314158;
+  --color-border-secondary: #1d293d;
+  --color-content-main: #ffffff;
+  --color-content-primary: #e2e8f0;
+  --color-content-secondary: #62748e;
+  --color-content-tertiary: #314158;
+}
+
+/* 라이트 모드 색상 정의 ('.light' 클래스가 있을 때 이 색상들로 덮어씌워짐) */
+.light {
+  --color-bg-primary: #f8fafc;
+  --color-bg-secondary: #f1f5f9;
+  --color-bg-tertiary: #e2e8f0;
+  --color-bg-quaternary: #cad5e2;
+  --color-border-primary: #cad5e2;
+  --color-border-secondary: #e2e8f0;
+  --color-content-main: #000000;
+  --color-content-primary: #314158;
+  --color-content-secondary: #62748e;
+  --color-content-tertiary: #cad5e2;
+}
