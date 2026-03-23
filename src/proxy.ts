@@ -3,8 +3,6 @@ import type { NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 
-const ACCESS_TOKEN_SECRET =
-  "local-dev-secret-key-which-is-very-long-and-secure";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const COOKIE_DOMAIN =
   process.env.NODE_ENV === "production"
@@ -132,11 +130,15 @@ function setAccessCookie(res: NextResponse, token: string) {
 
 function verifyAccessToken(token: string): "valid" | "expired" | "invalid" {
   try {
-    jwt.verify(token, ACCESS_TOKEN_SECRET);
-    return "valid";
-  } catch (err) {
-    if (err instanceof Error && err.name === "TokenExpiredError")
-      return "expired";
+    const decoded = jwt.decode(token);
+
+    if (!decoded || typeof decoded === "string" || typeof decoded.exp !== "number") {
+      return "invalid";
+    }
+
+    const now = Math.floor(Date.now() / 1000);
+    return decoded.exp > now ? "valid" : "expired";
+  } catch {
     return "invalid";
   }
 }
