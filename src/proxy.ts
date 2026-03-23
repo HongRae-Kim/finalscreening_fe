@@ -6,6 +6,10 @@ import { cookies } from "next/headers";
 const ACCESS_TOKEN_SECRET =
   "local-dev-secret-key-which-is-very-long-and-secure";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const COOKIE_DOMAIN =
+  process.env.NODE_ENV === "production"
+    ? process.env.COOKIE_DOMAIN ?? ".matchmyduo.cloud"
+    : undefined;
 
 const AUTH_REQUIRED_PATHS = ["/chat", "/myprofile"];
 const GUEST_ONLY_PATHS = ["/login", "/signup"];
@@ -104,8 +108,16 @@ function redirectToLogin(request: NextRequest) {
 }
 
 function clearAuthCookies(res: NextResponse) {
-  res.cookies.set("accessToken", "", { maxAge: 0, path: "/" });
-  res.cookies.set("refreshToken", "", { maxAge: 0, path: "/" });
+  res.cookies.set("accessToken", "", {
+    maxAge: 0,
+    path: "/",
+    domain: COOKIE_DOMAIN,
+  });
+  res.cookies.set("refreshToken", "", {
+    maxAge: 0,
+    path: "/",
+    domain: COOKIE_DOMAIN,
+  });
 }
 
 function setAccessCookie(res: NextResponse, token: string) {
@@ -114,8 +126,7 @@ function setAccessCookie(res: NextResponse, token: string) {
     sameSite: "lax",
     path: "/",
     secure: process.env.NODE_ENV === "production",
-    domain:
-      process.env.NODE_ENV === "production" ? ".matchmyduo.shop" : undefined,
+    domain: COOKIE_DOMAIN,
   });
 }
 

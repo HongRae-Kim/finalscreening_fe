@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const COOKIE_DOMAIN =
+  process.env.NODE_ENV === "production"
+    ? process.env.COOKIE_DOMAIN ?? ".matchmyduo.cloud"
+    : undefined;
 
 export async function POST(req: Request) {
   const body = await req.json(); // { email, password }
@@ -33,8 +37,7 @@ export async function POST(req: Request) {
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 10,
-    domain:
-      process.env.NODE_ENV === "production" ? ".matchmyduo.shop" : undefined,
+    domain: COOKIE_DOMAIN,
   });
 
   response.cookies.set("refreshToken", refreshToken, {
@@ -42,8 +45,7 @@ export async function POST(req: Request) {
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    domain:
-      process.env.NODE_ENV === "production" ? ".matchmyduo.shop" : undefined,
+    domain: COOKIE_DOMAIN,
   });
 
   return response;

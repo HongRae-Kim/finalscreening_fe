@@ -1,6 +1,11 @@
 import { API_BASE } from "@/lib/clientApi";
 import { NextResponse } from "next/server";
 
+const COOKIE_DOMAIN =
+  process.env.NODE_ENV === "production"
+    ? process.env.COOKIE_DOMAIN ?? ".matchmyduo.cloud"
+    : undefined;
+
 export async function POST() {
   const res = await fetch(`${API_BASE}/api/v1/auth/logout`, {
     method: "POST",
@@ -22,8 +27,7 @@ export async function POST() {
     sameSite: "lax",
     path: "/",
     maxAge: 0,
-    domain:
-      process.env.NODE_ENV === "production" ? ".matchmyduo.shop" : undefined,
+    domain: COOKIE_DOMAIN,
   });
 
   response.cookies.set("refreshToken", "", {
@@ -32,8 +36,7 @@ export async function POST() {
     sameSite: "lax",
     path: "/",
     maxAge: 0,
-    domain:
-      process.env.NODE_ENV === "production" ? ".matchmyduo.shop" : undefined,
+    domain: COOKIE_DOMAIN,
   });
 
   return response;
