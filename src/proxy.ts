@@ -109,11 +109,15 @@ function clearAuthCookies(res: NextResponse) {
   res.cookies.set("accessToken", "", {
     maxAge: 0,
     path: "/",
+    sameSite: "none",
+    secure: process.env.NODE_ENV === "production",
     domain: COOKIE_DOMAIN,
   });
   res.cookies.set("refreshToken", "", {
     maxAge: 0,
     path: "/",
+    sameSite: "none",
+    secure: process.env.NODE_ENV === "production",
     domain: COOKIE_DOMAIN,
   });
 }
@@ -121,7 +125,7 @@ function clearAuthCookies(res: NextResponse) {
 function setAccessCookie(res: NextResponse, token: string) {
   res.cookies.set("accessToken", token, {
     httpOnly: true,
-    sameSite: "lax",
+    sameSite: "none",
     path: "/",
     secure: process.env.NODE_ENV === "production",
     domain: COOKIE_DOMAIN,
